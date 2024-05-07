@@ -9,7 +9,7 @@ export default function DetailFilm() {
     <div className="detail-film">
       <h1>Detail Film</h1>
       <p>Here is the detail for film {filmId}</p>
-      <NavLink to="/">Back to all films</NavLink>
+      <NavLink to="/films">Back to all films</NavLink>
     </div>
   );
 }

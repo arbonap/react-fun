@@ -7,7 +7,7 @@ export default function RootLayout() {
       <header>
         <nav>
           <h1>Star Wars</h1>
-          <NavLink to="/">Films</NavLink>
+          <NavLink to="/films">Films</NavLink>
           <NavLink to="/people">People</NavLink>
           <NavLink to="/vehicles">Vehicles</NavLink>
           <NavLink to="/spaceships">Spaceships</NavLink>
