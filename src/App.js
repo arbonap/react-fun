@@ -1,5 +1,8 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { createBrowserRouter,
+        Route,
+        createRoutesFromElements,
+        RouterProvider } from 'react-router-dom';
 
 // pages
 import Films from './pages/Films';
@@ -8,34 +11,31 @@ import Vehicles from './pages/Vehicles';
 import Spaceships from './pages/Spaceships';
 import Species from './pages/Species';
 import Planets from './pages/Planets';
+import DetailFilm from './pages/DetailFilm';
 
+// layout
+import RootLayout from './layouts/RootLayout';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootLayout/>}>
+      <Route path="/" element={<Films />} />
+      <Route path=':filmId' element={<DetailFilm />} />
+      <Route path="people" element={<People />} >
+        {/* <Route path="detail" element={<DetailLayout />} /> */}
+      </Route>
+      <Route path="vehicles" element={<Vehicles />} />
+      <Route path="spaceships" element={<Spaceships />} />
+      <Route path="species" element={<Species />} />
+      <Route path="planets" element={<Planets />} />
+    </Route>
+
+  )
+);
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-      <header>
-        <nav>
-          <h1>Star Wars</h1>
-          <NavLink to="/">Films</NavLink>
-          <NavLink to="/people">People</NavLink>
-          <NavLink to="/vehicles">Vehicles</NavLink>
-          <NavLink to="/spaceships">Spaceships</NavLink>
-          <NavLink to="/species">Species</NavLink>
-          <NavLink to="/planets">Planets</NavLink>
-        </nav>
-      </header>
-      <main>
-        <Routes>
-          <Route index element={<Films />} />
-          <Route path="people" element={<People />} />
-          <Route path="vehicles" element={<Vehicles />} />
-          <Route path="spaceships" element={<Spaceships />} />
-          <Route path="species" element={<Species />} />
-          <Route path="planets" element={<Planets />} />
-
-        </Routes>
-      </main>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </div>
   );
 }
