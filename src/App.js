@@ -13,19 +13,18 @@ import Spaceships from './pages/Spaceships';
 import Species from './pages/Species';
 import Planets from './pages/Planets';
 import DetailFilm from './pages/DetailFilm';
-
+import DetailPerson from './pages/DetailPerson';
 // layout
 import RootLayout from './layouts/RootLayout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout/>}>
+    <Route path="/">
       <Route index element={<Films />} />
       <Route path="/films" element={<Films />} />
       <Route path='films/:filmId' element={<DetailFilm />} />
-      <Route path="people" element={<People />} >
-        {/* <Route path="detail" element={<DetailLayout />} /> */}
-      </Route>
+      <Route path="people" element={<People />} />
+      <Route path="people/:personId" element={<DetailPerson />} />
       <Route path="vehicles" element={<Vehicles />} />
       <Route path="spaceships" element={<Spaceships />} />
       <Route path="species" element={<Species />} />

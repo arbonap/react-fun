@@ -13,6 +13,7 @@ body {
 * {
   color: #fff;
   margin: 0;
+  box-sizing: border-box;
 }
 p {
   margin: 20px 0;
@@ -53,16 +54,27 @@ main {
   margin: 40px auto;
 }
 
-/* help layout */
+.row {
+ display: flex;
+}
 
+.column {
+ flex: 10%;
+ padding: 5px;
+}
 
-/* faq */
+.scroll_div {
+    overflow-y: auto;
+    max-height: 156px;
+}
 
+.another_scroll_div {
+    overflow-x: auto;
+    max-width: 200px;
+}
 
-/* careers list */
-
-
-/* careers details */
-
-
-/* breadcrumbs */
+/* .flex-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+} */

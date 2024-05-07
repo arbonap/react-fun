@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Route, Routes, Link, NavLink } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const API_ENDPOINT = 'https://swapi.dev/api/films/';
 
@@ -30,6 +31,7 @@ export default function Films() {
 
   return (
     <>
+    <Navbar activeType='Films' />
       <div className="films">
         <h1>Films</h1>
         <p>Here are all the films</p>
@@ -43,6 +45,7 @@ export default function Films() {
         <thead>
           <tr>
             <th>Name</th>
+            <th>Episode Number</th>
             <th>Director</th>
             <th>Release Date</th>
             <th>Producer</th>
@@ -53,6 +56,9 @@ export default function Films() {
           <tr key={index}>
             <td>
               <NavLink to={`${film.episode_id}`}>{film.title}</NavLink>
+            </td>
+            <td>
+              {film.episode_id}
             </td>
             <td>
               {film.director}
