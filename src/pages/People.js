@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Typography, Pagination } from "@mui/material";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -18,6 +18,13 @@ export default function People() {
   const [loading, setLoading] = useState(true)
   const [people, setPeople] = useState([])
   const [page, setPage] = useState(1);
+
+  function parseNumberFromString(str) {
+    const number = parseInt(str.match(/\d+/)[0]);
+    console.log('parseNumberFromString:', str)
+    console.log('number:', number);
+    return number;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +81,7 @@ export default function People() {
            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
          >
             <TableCell>
-              {person.name}
+            <Link to={`${parseNumberFromString(person.url)}`} style={{ color: 'purple' }}>{person.name}</Link>
             </TableCell>
             <TableCell>
               {person.gender}

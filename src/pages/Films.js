@@ -34,7 +34,6 @@ export default function Films() {
     <Navbar activeType='Films' />
       <div className="films">
         <h1>Films</h1>
-        <p>Here are all the films</p>
         {loading && <p className='loading-message'>Loading...</p>}
       {error && <p className='error-message'>Error loading the films.</p>}
 
