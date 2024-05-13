@@ -1,4 +1,4 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 
@@ -7,35 +7,57 @@ export default function DetailFilm() {
   const API_ENDPOINT = `https://swapi.dev/api/films/${filmId}`;
 
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
   const [filmData, setFilmData] = useState([])
-  const [characters, setCharacters] = useState([])
+  const [charactersData, setCharactersData] = useState([])
+  const [filmLoading, setFilmLoading] = useState(true);
+  const [charactersLoading, setCharactersLoading] = useState(true);
 
   useEffect(() => {
-    fetch(API_ENDPOINT)
-      .then(response => response.json())
-      .then(data => {
-        setFilmData(data)
-        setCharacters(data.characters)
-        console.log(API_ENDPOINT)
-        console.log(filmData)
-        }
-      )
-      .catch(err => {
-        console.log(err)
-        setError(err)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_ENDPOINT);
+        const data = await response.json();
+        setFilmData(data);
+        setFilmLoading(false);
+
+        const charactersPromises = data.characters.map(async (characterUrl) => {
+          const characterResponse = await fetch(characterUrl);
+          const characterData = await characterResponse.json();
+          return { name: characterData.name, url: characterData.url }; // Only store the name & url (endpoint)
+        });
+
+        const charactersData = await Promise.all(charactersPromises);
+        setCharactersData(charactersData);
+        setCharactersLoading(false);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err);
+        setFilmLoading(false);
+        setCharactersLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT]);
+
+  function parseNumberFromString(str) {
+    const number = parseInt(str.match(/\d+/)[0]);
+    return number;
+  }
+
+  if (filmLoading) {
+    return <p className='loading-message'>Loading film data...</p>;
+  }
+  else if (charactersLoading) {
+    return <p className='loading-message'>Loading character data...</p>;
+  }
 
   return (
     <>
       <Navbar activeType='Films' />
       <div className="detail-film">
       {
-        !loading && !error && filmData.length === 0
+        !error && filmData.length === 0
         ? <p className='error-message'>No films found.</p>
         :
         <>
@@ -45,10 +67,9 @@ export default function DetailFilm() {
         </>
       }
       </div>
-      {loading && <p className='loading-message'>Loading...</p>}
       {error && <p className='error-message'>Error loading the films.</p>}
 
-      {!loading && !error && filmData.length === 0
+      {!error && filmData.length === 0
         ? <p className='error-message'>No films found.</p>
         :
         <>
@@ -73,11 +94,11 @@ export default function DetailFilm() {
             <td>
               {filmData.director}
             </td>
-            <div className='another_scroll_div'>
             <td>
+              <div className='another_scroll_div'>
               {filmData.producer}
+              </div>
             </td>
-            </div>
             <td>
               {filmData.release_date}
             </td>
@@ -86,7 +107,7 @@ export default function DetailFilm() {
         </table>
 
         <div className='row'>
-            <div className='column scroll_div' >
+          <div className='column scroll_div' >
             <table>
               <thead>
                 <tr>
@@ -95,10 +116,10 @@ export default function DetailFilm() {
 
               </thead>
               <tbody>
-                {filmData.characters && filmData.characters.map((character, index) =>
-                <tr key={index}>
+                {filmData.characters && charactersData.map((charObj, index) =>
+                  <tr key={index}>
                   <td>
-                    <NavLink to={`${character}`}>{character}</NavLink>
+                    <Link to={`/person/${parseNumberFromString(charObj.url)}`}>{charObj.name}</Link>
                   </td>
                 </tr>
                 )}
