@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Route, Routes, Link, NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
+import { SpinnerCircular } from 'spinners-react';
 
 const API_ENDPOINT = 'https://swapi.dev/api/films/';
 
@@ -34,7 +35,7 @@ export default function Films() {
     <Navbar activeType='Films' />
       <div className="films">
         <h1>Films</h1>
-        {loading && <p className='loading-message'>Loading...</p>}
+        {loading && <SpinnerCircular size="50" secondaryColor='#a523bc'/>}
       {error && <p className='error-message'>Error loading the films.</p>}
 
       {!loading && !error && films.length === 0

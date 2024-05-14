@@ -14,6 +14,10 @@ import Species from './pages/Species';
 import Planets from './pages/Planets';
 import DetailFilm from './pages/DetailFilm';
 import DetailPerson from './pages/DetailPerson';
+import DetailVehicle from './pages/DetailVehicle';
+import DetailSpaceship from './pages/DetailSpaceship';
+import DetailSpecie from './pages/DetailSpecie';
+import DetailPlanet from './pages/DetailPlanet';
 // layout
 import RootLayout from './layouts/RootLayout';
 
@@ -26,9 +30,13 @@ const router = createBrowserRouter(
       <Route path="people" element={<People />} />
       <Route path="people/:personId" element={<DetailPerson />} />
       <Route path="vehicles" element={<Vehicles />} />
+      <Route path="vehicles/:vehicleId" element={<DetailVehicle />} />
       <Route path="spaceships" element={<Spaceships />} />
+      <Route path="spaceships/:spaceshipId" element={<DetailSpaceship />} />
       <Route path="species" element={<Species />} />
+      <Route path="species/:specieId" element={<DetailSpecie/>} />
       <Route path="planets" element={<Planets />} />
+      <Route path="planets/:planetId" element={<DetailPlanet />} />
 
       <Route path="*" element={<Navigate to="/films" replace/>} />
     </Route>

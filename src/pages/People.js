@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -53,8 +53,7 @@ export default function People() {
     <>
     <Navbar activeType='People' />
       <div className="people">
-        <Typography>People</Typography>
-        <p>Here are all the people</p>
+        <h1>People</h1>
           {error && <p className='error-message'>Error loading the people.</p>}
           {!loading && !error && people.length === 0
         ? <p className='error-message'>No people found.</p>

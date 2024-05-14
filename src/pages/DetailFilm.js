@@ -1,6 +1,8 @@
 import { NavLink, useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
+import { SpinnerCircular } from 'spinners-react';
+
 
 export default function DetailFilm() {
   const { filmId } = useParams();
@@ -9,6 +11,8 @@ export default function DetailFilm() {
   const [error, setError] = useState(null)
   const [filmData, setFilmData] = useState([])
   const [charactersData, setCharactersData] = useState([])
+  const [planetsData, setPlanetsData] = useState([])
+  const [planetsLoading, setPlanetsLoading] = useState(true);
   const [filmLoading, setFilmLoading] = useState(true);
   const [charactersLoading, setCharactersLoading] = useState(true);
 
@@ -26,9 +30,20 @@ export default function DetailFilm() {
           return { name: characterData.name, url: characterData.url }; // Only store the name & url (endpoint)
         });
 
+        const planetsPromises = data.planets.map(async (planetUrl) => {
+          const planetResponse = await fetch(planetUrl);
+          const planetData = await planetResponse.json();
+          return { name: planetData.name, url: planetData.url }; // Only store the name & url (endpoint)
+        });
+
         const charactersData = await Promise.all(charactersPromises);
+        const planetsData = await Promise.all(planetsPromises);
+
         setCharactersData(charactersData);
         setCharactersLoading(false);
+
+        setPlanetsData(planetsData);
+        setPlanetsLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
@@ -46,10 +61,13 @@ export default function DetailFilm() {
   }
 
   if (filmLoading) {
-    return <p className='loading-message'>Loading film data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading film data...</p></>;
   }
   else if (charactersLoading) {
-    return <p className='loading-message'>Loading character data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading character data...</p></>;
+  }
+  else if (planetsLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading planet data...</p></>;
   }
 
   return (
@@ -137,10 +155,11 @@ export default function DetailFilm() {
               </thead>
 
               <tbody>
-                {filmData.planets && filmData.planets.map((planet, index) =>
+                {filmData.planets && planetsData.map((planetObj, index) =>
                 <tr key={index}>
                   <td>
-                    <NavLink to={`${planet}`}>{planet}</NavLink>
+                    {console.log(planetObj.url)}
+                  <Link to={`/planet/${parseNumberFromString(planetObj.url)}`}>{planetObj.name}</Link>
                   </td>
                 </tr>
                 )}
