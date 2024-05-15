@@ -28,9 +28,6 @@ export default function DetailPerson() {
   const [vehiclesLoading, setVehiclesLoading] = useState(true);
   // const [specieData, setSpecieData] = useState([]);
   // const [specieLoading, setSpecieLoading] = useState(true);
-  // const [vehiclesData, setVehiclesData] = useState([]);
-  // const [vehiclesLoading, setVehiclesLoading] = useState(true);
-  // const [charactersLoading, setCharactersLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {

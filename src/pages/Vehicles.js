@@ -24,8 +24,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
 import Navbar from './Navbar';
+import { SpinnerCircular } from 'spinners-react';
 
 const API_ENDPOINT = 'https://swapi.dev/api/vehicles/';
 
@@ -62,7 +62,7 @@ export default function Vehicles() {
   }, [page]);
 
   if (loading) {
-    return <p className='loading-message'>Loading vehicles data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading vehicles data...</p></>;
   }
 
   return (

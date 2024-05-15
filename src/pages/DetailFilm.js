@@ -137,7 +137,7 @@ export default function DetailFilm() {
                 {filmData.characters && charactersData.map((charObj, index) =>
                   <tr key={index}>
                   <td>
-                    <Link to={`/person/${parseNumberFromString(charObj.url)}`}>{charObj.name}</Link>
+                    <Link to={`/people/${parseNumberFromString(charObj.url)}`}>{charObj.name}</Link>
                   </td>
                 </tr>
                 )}
@@ -159,7 +159,7 @@ export default function DetailFilm() {
                 <tr key={index}>
                   <td>
                     {console.log(planetObj.url)}
-                  <Link to={`/planet/${parseNumberFromString(planetObj.url)}`}>{planetObj.name}</Link>
+                  <Link to={`/planets/${parseNumberFromString(planetObj.url)}`}>{planetObj.name}</Link>
                   </td>
                 </tr>
                 )}
