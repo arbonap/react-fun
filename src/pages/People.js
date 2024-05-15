@@ -93,7 +93,13 @@ export default function People() {
               {person.eye_color}
             </TableCell>
             <TableCell style={{ maxWidth: 200, overflowX: 'auto' }}>
-              {person.films}
+              {person.films.map((film, index) =>(
+                <>
+                <Link to={`/films/${parseNumberFromString(film)}`} key={index} style={{ color: 'purple' }}>{film}</Link>
+                <br/>
+                </>
+                )
+              )}
             </TableCell>
             <TableCell>
               {person.hair_color}
@@ -105,7 +111,12 @@ export default function People() {
               {person.mass}
             </TableCell>
             <TableCell>
-              {person.homeworld}
+              {
+                <>
+                <Link to={`/planets/${parseNumberFromString(person.homeworld)}`} key={index} style={{ color: 'purple' }}>{person.homeworld}</Link>
+                <br/>
+                </>
+              }
             </TableCell>
            </TableRow>
            )}

@@ -148,7 +148,7 @@ export default function DetailVehicle() {
                 {vehicleData.films && filmsData.map((filmObj, index) =>
                   <tr key={index}>
                   <td>
-                    <Link to={`/film/${parseNumberFromString(filmObj.url)}`}>{filmObj.title}</Link>
+                    <Link to={`/films/${parseNumberFromString(filmObj.url)}`}>{filmObj.title}</Link>
                   </td>
                 </tr>
                 )}

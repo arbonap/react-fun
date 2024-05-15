@@ -1,19 +1,3 @@
-// import Navbar from './Navbar';
-
-// export default
-// function Vehicles() {
-//   return (
-//     <>
-//     <Navbar activeType='Vehicles' />
-//     <div className="vehicles">
-//       <h1>Vehicles</h1>
-//       <p>Here are all the vehicles</p>
-//     </div>
-//     </>
-//   );
-// }
-
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Pagination } from "@mui/material";
@@ -114,7 +98,13 @@ export default function Vehicles() {
               {vehicle.passengers}
             </TableCell>
             <TableCell style={{ maxWidth: 200, overflowX: 'auto' }}>
-              {vehicle.films}
+              {vehicle.films.map((film, index) =>(
+                <>
+                <Link to={`/films/${parseNumberFromString(film)}`} key={index} style={{ color: 'purple' }}>{film}</Link>
+                <br/>
+                </>
+                )
+              )}
             </TableCell>
             <TableCell>
               {vehicle.vehicle_class}
