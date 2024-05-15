@@ -71,8 +71,8 @@ export default function Vehicles() {
       <div className="vehicles">
         <h1>Vehicles</h1>
           {error && <p className='error-message'>Error loading vehicles.</p>}
-          {!loading && !error && vehicles.length === 0
-        ? <p className='error-message'>No people found.</p>
+          {!loading  && !error && vehicles.length === 0
+        ? <p className='error-message'>No vehicles found.</p>
         :
         <TableContainer sx={{width: '85%'}} component={Paper}>
           <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 650 }}>

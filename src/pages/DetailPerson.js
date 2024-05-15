@@ -25,8 +25,10 @@ export default function DetailPerson() {
   const [filmsLoading, setFilmsLoading] = useState(true);
   const [vehiclesData, setVehiclesData] = useState([]);
   const [vehiclesLoading, setVehiclesLoading] = useState(true);
-  // const [specieData, setSpecieData] = useState([]);
-  // const [specieLoading, setSpecieLoading] = useState(true);
+  const [speciesData, setSpeciesData] = useState([]);
+  const [speciesLoading, setSpeciesLoading] = useState(true);
+  const [starshipsData, setStarshipsData] = useState([]);
+  const [starshipsLoading, setStarshipsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,13 +41,25 @@ export default function DetailPerson() {
         const filmsPromises = data.films.map(async (filmUrl) => {
           const filmResponse = await fetch(filmUrl);
           const filmData = await filmResponse.json();
-          return { title: filmData.title, url: filmData.url }; // Only store the name & url (endpoint)
+          return { title: filmData.title, url: filmData.url };
         });
 
         const vehiclesPromises = data.vehicles.map(async (vehicleUrl) => {
           const vehicleResponse = await fetch(vehicleUrl);
           const vehicleData = await vehicleResponse.json();
-          return { name: vehicleData.name, url: vehicleData.url }; // Only store the name & url (endpoint)
+          return { name: vehicleData.name, url: vehicleData.url };
+        });
+
+        const speciesPromises = data.species.map(async (specieUrl) => {
+          const specieResponse = await fetch(specieUrl);
+          const specieData = await specieResponse.json();
+          return { name: specieData.name, url: specieData.url };
+        });
+
+        const starshipsPromises = data.starships.map(async (starshipUrl) => {
+          const starshipResponse = await fetch(starshipUrl);
+          const starshipData = await starshipResponse.json();
+          return { name: starshipData.name, url: starshipData.url };
         });
 
         const planetUrl = data.homeworld
@@ -56,9 +70,8 @@ export default function DetailPerson() {
 
         const filmsData = await Promise.all(filmsPromises);
         const vehiclesData = await Promise.all(vehiclesPromises);
-        // const speciesUrl = data.species
-        // const specie = await fetch(speciesUrl);
-        // const specieData = await specie.json();
+        const speciesData = await Promise.all(speciesPromises);
+        const starshipsData = await Promise.all(starshipsPromises);
 
         setPlanetData(planetData);
         setPlanetLoading(false);
@@ -69,8 +82,11 @@ export default function DetailPerson() {
         setVehiclesData(vehiclesData);
         setVehiclesLoading(false);
 
-        // setSpecieData(specieData);
-        // setSpecieLoading(false);
+        setSpeciesData(speciesData);
+        setSpeciesLoading(false);
+
+        setStarshipsData(starshipsData);
+        setStarshipsLoading(false);
 
       } catch (err) {
         console.error('Error fetching data:', err);
@@ -79,7 +95,8 @@ export default function DetailPerson() {
         setPersonLoading(false);
         setPlanetLoading(false);
         setVehiclesLoading(false);
-        // setSpecieLoading(false);
+        setSpeciesLoading(false);
+        setStarshipsLoading(false);
       }
     };
 
@@ -100,11 +117,14 @@ export default function DetailPerson() {
   else if (planetLoading) {
     return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading planet data...</p></>;
   }
-  // else if (specieLoading) {
-  //   return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading specie data...</p></>;
-  // }
+  else if (speciesLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading species data...</p></>;
+  }
   else if (vehiclesLoading) {
     return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading vehicle data...</p></>;
+  }
+  else if (starshipsLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading starship data...</p></>;
   }
 
   return (
@@ -193,13 +213,6 @@ export default function DetailPerson() {
 
               </thead>
               <tbody>
-                {/* {personData.characters && charactersData.map((charObj, index) =>
-                  <tr key={index}>
-                  <td>
-                    <Link to={`/person/${parseNumberFromString(charObj.url)}`}>{charObj.name}</Link>
-                  </td>
-                </tr>
-                )} */}
               <div className='another_scroll_div'>
                 {personData.films && filmsData.map((filmObj, index) =>
                     <td className='another_scroll_div'>
@@ -212,7 +225,7 @@ export default function DetailPerson() {
             </table>
           </div>
 
-          {/* <div className='column scroll_div'>
+          <div className='column scroll_div'>
             <table>
               <thead>
                 <tr>
@@ -223,14 +236,18 @@ export default function DetailPerson() {
               <tbody>
                 <tr>
                   <td>
-                    <Link to={`/specie/${parseNumberFromString(specieData.url)}`}>{specieData.name}</Link>
+                    {personData.species.length > 1 ? speciesData.map((specieObj, index) =>
+                    <td className='another_scroll_div'>
+                      <Link to={`/species/${parseNumberFromString(specieObj.url)}`}>{specieObj.name}</Link>
+                    </td>
+                    ) : 'N/A'}
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div> */}
+          </div>
 
-          {/* <div className='column scroll_div'>
+          <div className='column scroll_div'>
             <table>
               <thead>
                 <tr>
@@ -239,18 +256,20 @@ export default function DetailPerson() {
               </thead>
 
               <tbody>
-                {personData.starships && personData.starships.map((starship, index) =>
-                <tr key={index}>
+                <tr>
                   <td>
-                    <NavLink to={`${starship}`}>{starship}</NavLink>
+                    {personData.starships.length > 1 ? starshipsData.map((starshipObj, index) =>
+                    <td className='another_scroll_div'>
+                      <Link to={`/spaceships/${parseNumberFromString(starshipObj.url)}`}>{starshipObj.name}</Link>
+                    </td>
+                    ) : 'N/A'}
                   </td>
                 </tr>
-                )}
               </tbody>
             </table>
-          </div> */}
+          </div>
 
-          {/* <div className='column scroll_div'>
+           <div className='column scroll_div'>
             <table>
               <thead>
                 <tr>
@@ -259,16 +278,16 @@ export default function DetailPerson() {
               </thead>
 
               <tbody>
-                {personData.vehicles && personData.vehicles.map((vehicle, index) =>
+                {personData.vehicles.length > 1 ? personData.vehicles && vehiclesData.map((vehicleObj, index) =>
                 <tr key={index}>
                   <td>
-                    <NavLink to={`${vehicle}`}>{vehicle}</NavLink>
+                    <Link to={`/vehicles/${parseNumberFromString(vehicleObj.url)}`}>{vehicleObj.name}</Link>
                   </td>
                 </tr>
-                )}
+                ) : 'N/A'}
               </tbody>
             </table>
-          </div> */}
+          </div>
         </div>
       </>
       }
