@@ -15,6 +15,8 @@ export default function DetailFilm() {
   const [planetsLoading, setPlanetsLoading] = useState(true);
   const [filmLoading, setFilmLoading] = useState(true);
   const [charactersLoading, setCharactersLoading] = useState(true);
+  const [speciesData, setSpeciesData] = useState([]);
+  const [speciesLoading, setSpeciesLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,19 +38,33 @@ export default function DetailFilm() {
           return { name: planetData.name, url: planetData.url }; // Only store the name & url (endpoint)
         });
 
+
+        const speciesPromises = data.species.map(async (specieUrl) => {
+          const specieResponse = await fetch(specieUrl);
+          const specieData = await specieResponse.json();
+          return { name: specieData.name, url: specieData.url }; // Only store the name & url (endpoint)
+        });
+
         const charactersData = await Promise.all(charactersPromises);
         const planetsData = await Promise.all(planetsPromises);
+        const speciesData = await Promise.all(speciesPromises);
 
         setCharactersData(charactersData);
         setCharactersLoading(false);
 
         setPlanetsData(planetsData);
         setPlanetsLoading(false);
+
+        setSpeciesData(speciesData);
+        setSpeciesLoading(false);
+
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
         setFilmLoading(false);
         setCharactersLoading(false);
+        setPlanetsLoading(false);
+        setSpeciesLoading(false);
       }
     };
 
@@ -68,6 +84,9 @@ export default function DetailFilm() {
   }
   else if (planetsLoading) {
     return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading planet data...</p></>;
+  }
+  else if (speciesLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading specie data...</p></>;
   }
 
   return (
@@ -176,10 +195,10 @@ export default function DetailFilm() {
               </thead>
 
               <tbody>
-                {filmData.species && filmData.species.map((specie, index) =>
+                {filmData.species && speciesData.map((specieObj, index) =>
                 <tr key={index}>
                   <td>
-                    <NavLink to={`${specie}`}>{specie}</NavLink>
+                    <Link to={`/species/${parseNumberFromString(specieObj.url)}`}>{specieObj.name}</Link>
                   </td>
                 </tr>
                 )}

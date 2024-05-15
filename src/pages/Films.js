@@ -35,7 +35,7 @@ export default function Films() {
     <Navbar activeType='Films' />
       <div className="films">
         <h1>Films</h1>
-        {loading && <SpinnerCircular size="50" secondaryColor='#a523bc'/>}
+        {loading && <><SpinnerCircular size="50" secondaryColor='#a523bc'/><p className='loading-message'>Loading film data...</p></>}
       {error && <p className='error-message'>Error loading the films.</p>}
 
       {!loading && !error && films.length === 0
