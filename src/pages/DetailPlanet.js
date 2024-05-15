@@ -15,6 +15,7 @@ export default function DetailPlanet() {
       <Navbar activeType='Planets' />
       <div className="detail-planet">
         <h1>Detail Planet</h1>
+
         <p>Here is the detail for planet {planetId}</p>
         <NavLink to="/planets">Back to all planets</NavLink>
       </div>

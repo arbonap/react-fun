@@ -17,6 +17,8 @@ export default function DetailFilm() {
   const [charactersLoading, setCharactersLoading] = useState(true);
   const [speciesData, setSpeciesData] = useState([]);
   const [speciesLoading, setSpeciesLoading] = useState(true);
+  const [spaceshipData, setSpaceshipData] = useState([]);
+  const [spaceshipLoading, setSpaceshipLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +47,16 @@ export default function DetailFilm() {
           return { name: specieData.name, url: specieData.url }; // Only store the name & url (endpoint)
         });
 
+        const spaceshipPromises = data.starships.map(async (starshipUrl) => {
+          const spaceshipResponse = await fetch(starshipUrl);
+          const starshipData = await spaceshipResponse.json();
+          return { name: starshipData.name, url: starshipData.url }; // Only store the name & url (endpoint)
+        });
+
         const charactersData = await Promise.all(charactersPromises);
         const planetsData = await Promise.all(planetsPromises);
         const speciesData = await Promise.all(speciesPromises);
+        const spaceshipData = await Promise.all(spaceshipPromises);
 
         setCharactersData(charactersData);
         setCharactersLoading(false);
@@ -58,6 +67,9 @@ export default function DetailFilm() {
         setSpeciesData(speciesData);
         setSpeciesLoading(false);
 
+        setSpaceshipData(spaceshipData);
+        setSpaceshipLoading(false);
+
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
@@ -65,6 +77,7 @@ export default function DetailFilm() {
         setCharactersLoading(false);
         setPlanetsLoading(false);
         setSpeciesLoading(false);
+        setSpaceshipLoading(false);
       }
     };
 
@@ -215,10 +228,10 @@ export default function DetailFilm() {
               </thead>
 
               <tbody>
-                {filmData.starships && filmData.starships.map((starship, index) =>
+                {filmData.starships && spaceshipData.map((starshipObj, index) =>
                 <tr key={index}>
                   <td>
-                    <NavLink to={`${starship}`}>{starship}</NavLink>
+                  <Link to={`/spaceships/${parseNumberFromString(starshipObj.url)}`}>{starshipObj.name}</Link>
                   </td>
                 </tr>
                 )}
