@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 
 export default function DetailVehicle() {
   const { vehicleId } = useParams();
-  // const film = films.find((film) => film.id === filmId);
   const API_ENDPOINT = `https://swapi.dev/api/vehicles/${vehicleId}`;
 
   const [error, setError] = useState(null)

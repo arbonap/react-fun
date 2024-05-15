@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { SpinnerCircular } from 'spinners-react';
 
 import Navbar from './Navbar';
 
@@ -46,7 +47,7 @@ export default function People() {
   }, [page]);
 
   if (loading) {
-    return <p className='loading-message'>Loading people data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/><p className='loading-message'>Loading people data...</p></>;
   }
 
   return (
