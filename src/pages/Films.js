@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes, Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
 import { SpinnerCircular } from 'spinners-react';
 

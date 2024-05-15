@@ -12,8 +12,7 @@ import Vehicles from './pages/Vehicles';
 import DetailFilm from './pages/DetailFilm';
 import DetailPerson from './pages/DetailPerson';
 import DetailVehicle from './pages/DetailVehicle';
-// layout
-import RootLayout from './layouts/RootLayout';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
