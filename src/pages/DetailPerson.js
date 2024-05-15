@@ -14,7 +14,6 @@ import TableRow from '@mui/material/TableRow';
 
 export default function DetailPerson() {
   const { personId } = useParams();
-  // const film = films.find((film) => film.id === filmId);
   const API_ENDPOINT = `https://swapi.dev/api/people/${personId}`;
 
   const [error, setError] = useState(null)

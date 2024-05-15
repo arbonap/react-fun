@@ -19,6 +19,8 @@ export default function DetailFilm() {
   const [speciesLoading, setSpeciesLoading] = useState(true);
   const [spaceshipData, setSpaceshipData] = useState([]);
   const [spaceshipLoading, setSpaceshipLoading] = useState(true);
+  const [vehiclesData, setVehiclesData] = useState([]);
+  const [vehiclesLoading, setVehiclesLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,10 +55,17 @@ export default function DetailFilm() {
           return { name: starshipData.name, url: starshipData.url }; // Only store the name & url (endpoint)
         });
 
+        const vehiclesPromises = data.vehicles.map(async (vehicleUrl) => {
+          const vehicleResponse = await fetch(vehicleUrl);
+          const vehicleData = await vehicleResponse.json();
+          return { name: vehicleData.name, url: vehicleData.url }; // Only store the name & url (endpoint)
+        });
+
         const charactersData = await Promise.all(charactersPromises);
         const planetsData = await Promise.all(planetsPromises);
         const speciesData = await Promise.all(speciesPromises);
         const spaceshipData = await Promise.all(spaceshipPromises);
+        const vehiclesData = await Promise.all(vehiclesPromises);
 
         setCharactersData(charactersData);
         setCharactersLoading(false);
@@ -70,6 +79,9 @@ export default function DetailFilm() {
         setSpaceshipData(spaceshipData);
         setSpaceshipLoading(false);
 
+        setVehiclesData(vehiclesData);
+        setVehiclesLoading(false);
+
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
@@ -78,6 +90,7 @@ export default function DetailFilm() {
         setPlanetsLoading(false);
         setSpeciesLoading(false);
         setSpaceshipLoading(false);
+        setVehiclesLoading(false);
       }
     };
 
@@ -100,6 +113,12 @@ export default function DetailFilm() {
   }
   else if (speciesLoading) {
     return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading specie data...</p></>;
+  }
+  else if (spaceshipLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading spaceship data...</p></>;
+  }
+  else if (vehiclesLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading vehicle data...</p></>;
   }
 
   return (
@@ -248,10 +267,10 @@ export default function DetailFilm() {
               </thead>
 
               <tbody>
-                {filmData.vehicles && filmData.vehicles.map((vehicle, index) =>
+                {filmData.vehicles && vehiclesData.map((vehicleObj, index) =>
                 <tr key={index}>
                   <td>
-                    <NavLink to={`${vehicle}`}>{vehicle}</NavLink>
+                  <Link to={`/vehicles/${parseNumberFromString(vehicleObj.url)}`}>{vehicleObj.name}</Link>
                   </td>
                 </tr>
                 )}
