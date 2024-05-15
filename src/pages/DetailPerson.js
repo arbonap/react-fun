@@ -185,7 +185,7 @@ export default function DetailPerson() {
               {personData.gender}
             </td>
             <td>
-              <Link to={`/planet/${parseNumberFromString(personData.homeworld)}`}>{planetData.name}</Link>
+              {planetData.name}
             </td>
             <td>
               {personData.created && new Date(personData.created).toLocaleString()}
@@ -238,7 +238,7 @@ export default function DetailPerson() {
                   <td>
                     {personData.species.length > 1 ? speciesData.map((specieObj, index) =>
                     <td className='another_scroll_div'>
-                      <Link to={`/species/${parseNumberFromString(specieObj.url)}`}>{specieObj.name}</Link>
+                      {specieObj.name}
                     </td>
                     ) : 'N/A'}
                   </td>
@@ -260,7 +260,7 @@ export default function DetailPerson() {
                   <td>
                     {personData.starships.length > 1 ? starshipsData.map((starshipObj, index) =>
                     <td className='another_scroll_div'>
-                      <Link to={`/spaceships/${parseNumberFromString(starshipObj.url)}`}>{starshipObj.name}</Link>
+                      {starshipObj.name}
                     </td>
                     ) : 'N/A'}
                   </td>

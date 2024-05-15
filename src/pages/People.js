@@ -111,12 +111,7 @@ export default function People() {
               {person.mass}
             </TableCell>
             <TableCell>
-              {
-                <>
-                <Link to={`/planets/${parseNumberFromString(person.homeworld)}`} key={index} style={{ color: 'purple' }}>{person.homeworld}</Link>
-                <br/>
-                </>
-              }
+              {person.homeworld}
             </TableCell>
            </TableRow>
            )}

@@ -4,9 +4,6 @@ const RECORD_TYPES = [
   ['Films', '/films'],
   ['People', '/people'],
   ['Vehicles', '/vehicles'],
-  ['Spaceships', '/spaceships'],
-  ['Species', '/species'],
-  ['Planets', '/planets'],
 ];
 
 export default function Navbar({activeType}) {

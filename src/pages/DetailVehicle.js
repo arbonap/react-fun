@@ -1,6 +1,7 @@
 import { NavLink, useParams, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import { useState, useEffect } from 'react';
+import { SpinnerCircular } from 'spinners-react';
 
 
 export default function DetailVehicle() {
@@ -12,6 +13,8 @@ export default function DetailVehicle() {
   const [vehicleData, setVehicleData] = useState([])
   const [filmsData, setFilmsData] = useState([])
   const [filmsLoading, setFilmsLoading] = useState(true);
+  const [pilotsData, setPilotsData] = useState([])
+  const [pilotsLoading, setPilotsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,13 +27,27 @@ export default function DetailVehicle() {
         const filmsPromises = data.films.map(async (filmUrl) => {
           const filmResponse = await fetch(filmUrl);
           const filmData = await filmResponse.json();
-          return { title: filmData.title, url: filmData.url }; // Only store the title & url (endpoint)
+          return { title: filmData.title, url: filmData.url };
         });
 
         const filmsData = await Promise.all(filmsPromises);
+
+        const pilotsPromises = data.pilots.map(async (pilotUrl) => {
+          const pilotResponse = await fetch(pilotUrl);
+          const pilotData = await pilotResponse.json();
+          return { name: pilotData.name, url: pilotData.url };
+        });
+
+        const pilotsData = await Promise.all(pilotsPromises);
+
         setFilmsData(filmsData);
         console.log(filmsData);
         setFilmsLoading(false);
+
+        setPilotsData(pilotsData)
+        console.log(pilotsData);
+        setPilotsLoading(false);
+
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
@@ -48,10 +65,13 @@ export default function DetailVehicle() {
   }
 
   if (vehicleLoading) {
-    return <p className='loading-message'>Loading vehicle data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading vehicle data...</p></>;
   }
   else if (filmsLoading) {
-    return <p className='loading-message'>Loading films data...</p>;
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading films data...</p></>;
+  }
+  else if (pilotsLoading) {
+    return <><SpinnerCircular size="50" secondaryColor='#a523bc'/> <p className='loading-message'>Loading pilots data...</p></>;
   }
 
 
@@ -129,7 +149,11 @@ export default function DetailVehicle() {
               {vehicleData.manufacturer}
             </td>
             <td>
-              { vehicleData.pilots.length === 0 ? 'No pilots' : vehicleData.pilots }
+              {vehicleData.pilots.length > 1 ? vehicleData.pilots && pilotsData.map((pilotObj, index) =>
+
+                    <Link to={`/people/${parseNumberFromString(pilotObj.url)}`}>{pilotObj.name}</Link>
+
+                ) : 'N/A'}
             </td>
           </tr>
         </tbody>

@@ -210,7 +210,7 @@ export default function DetailFilm() {
                 <tr key={index}>
                   <td>
                     {console.log(planetObj.url)}
-                  <Link to={`/planets/${parseNumberFromString(planetObj.url)}`}>{planetObj.name}</Link>
+                    {planetObj.name}
                   </td>
                 </tr>
                 )}
@@ -230,7 +230,7 @@ export default function DetailFilm() {
                 {filmData.species && speciesData.map((specieObj, index) =>
                 <tr key={index}>
                   <td>
-                    <Link to={`/species/${parseNumberFromString(specieObj.url)}`}>{specieObj.name}</Link>
+                    {specieObj.name}
                   </td>
                 </tr>
                 )}
@@ -250,7 +250,7 @@ export default function DetailFilm() {
                 {filmData.starships && spaceshipData.map((starshipObj, index) =>
                 <tr key={index}>
                   <td>
-                  <Link to={`/spaceships/${parseNumberFromString(starshipObj.url)}`}>{starshipObj.name}</Link>
+                  {starshipObj.name}
                   </td>
                 </tr>
                 )}
