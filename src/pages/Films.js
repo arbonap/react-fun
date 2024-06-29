@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
 import { SpinnerCircular } from 'spinners-react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 const API_ENDPOINT = 'https://swapi.dev/api/films/';
 
@@ -41,38 +48,40 @@ export default function Films() {
       {!loading && !error && films.length === 0
         ? <p className='error-message'>No films found.</p>
         :
-        <table className='films-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Episode Number</th>
-            <th>Director</th>
-            <th>Release Date</th>
-            <th>Producer</th>
-          </tr>
-        </thead>
-        <tbody className='flex-table'>
+        <TableContainer sx={{width: '85%'}} component={Paper}>
+          <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 650 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Episode Number</TableCell>
+            <TableCell>Director</TableCell>
+            <TableCell>Release Date</TableCell>
+            <TableCell>Producer</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {films.map((film, index) =>
-          <tr key={index}>
-            <td>
-              <NavLink to={`${film.episode_id}`}>{film.title}</NavLink>
-            </td>
-            <td>
+          <TableRow key={index}>
+            <TableCell>
+              <NavLink to={`${film.episode_id}`} style={{ color: 'purple' }}>{film.title}</NavLink>
+            </TableCell>
+            <TableCell>
               {film.episode_id}
-            </td>
-            <td>
+            </TableCell>
+            <TableCell>
               {film.director}
-            </td>
-            <td>
+            </TableCell>
+            <TableCell>
               {film.release_date}
-            </td>
-            <td>
+            </TableCell>
+            <TableCell>
               {film.producer}
-            </td>
-          </tr>
+            </TableCell>
+          </TableRow>
           )}
-        </tbody>
-        </table>
+        </TableBody>
+          </Table>
+        </TableContainer>
       }
       </div>
     </>
