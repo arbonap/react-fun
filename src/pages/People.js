@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Pagination } from "@mui/material";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -19,6 +19,7 @@ export default function People() {
   const [loading, setLoading] = useState(true)
   const [people, setPeople] = useState([])
   const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams()
 
   function parseNumberFromString(str) {
     const number = parseInt(str.match(/\d+/)[0]);
@@ -33,8 +34,10 @@ export default function People() {
         const endpointWithPageParam = `${API_ENDPOINT}?page=${page}`;
         const response = await fetch(endpointWithPageParam);
         const data = await response.json();
+        const params = `?page=${page}`;
         setPeople(data.results);
         setLoading(false);
+        setSearchParams(params);
 
       } catch (err) {
         console.error('Error fetching data:', err);
@@ -44,7 +47,7 @@ export default function People() {
     };
 
     fetchData();
-  }, [page]);
+  }, [page, searchParams, setSearchParams]);
 
   if (loading) {
     return <><SpinnerCircular size="50" secondaryColor='#a523bc'/><p className='loading-message'>Loading people data...</p></>;
@@ -124,7 +127,7 @@ export default function People() {
         page={page}
         size="large"
         onChange={(event, value) => {
-          console.log('value:', value);
+          // console.log('value:', value);
           setPage(value);
         }}
         sx={{ '& .MuiPaginationItem-root': { color: 'white' } }}
